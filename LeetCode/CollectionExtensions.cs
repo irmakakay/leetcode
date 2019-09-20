@@ -6,9 +6,9 @@ namespace LeetCode
 {
     public static class CollectionExtensions
     {
-        public static void ForEach<T>(this LinkedList<T> collection, Action<T> action)
+        public static void ForEach<T>(this LinkedList<T> list, Action<T> action)
         {
-            foreach (var item in collection)
+            foreach (var item in list)
             {
                 action(item);
             }
