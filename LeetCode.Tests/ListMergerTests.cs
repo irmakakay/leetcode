@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace LeetCode.Tests
 {
@@ -31,6 +33,18 @@ namespace LeetCode.Tests
 
             var final = _sut.MergeHorizontal(new[] {l1, l2, l3});
             CollectionAssert.AreEqual(new[] {1, 1, 2, 3, 4, 4, 5, 6}, final, final.ToString());
+        }
+
+        [Test]
+        public void MergeHorizontal_ThrowsException_WhenAnyInputSequenceIsNull()
+        {
+            ConfigureSut();
+
+            var l1 = new LinkedList<int>(new[] { 1, 4, 5 });
+            var l2 = new LinkedList<int>(new[] { 1, 3, 4 });
+            LinkedList<int> l3 = null;
+
+            Assert.Throws<ArgumentException>(() => _sut.MergeHorizontal(new[] { l1, l2, l3 }));
         }
 
         private void ConfigureSut()

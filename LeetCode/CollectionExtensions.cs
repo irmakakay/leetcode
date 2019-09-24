@@ -41,10 +41,10 @@ namespace LeetCode
         }
 
         public static IEnumerable<IEnumerable<TResult>> ZipMany<TIn, TResult>(
-            this IEnumerable<IEnumerable<TIn>> collections,
+            this IEnumerable<IEnumerable<TIn>> sequences,
             Func<TIn, TResult> resultSelector)
         {
-            var enumerators = collections.Select(_ => _.GetEnumerator()).ToArray();
+            var enumerators = sequences.Select(_ => _.GetEnumerator()).ToArray();
             var length = enumerators.Length;
             while (true)
             {
@@ -60,26 +60,15 @@ namespace LeetCode
         }
 
         public static IEnumerable<IEnumerable<TResult>> ZipManyWithDifferentLength<TIn, TResult>(
-            this IEnumerable<IEnumerable<TIn>> collections,
+            this IEnumerable<IEnumerable<TIn>> sequences,
             Func<TIn, TResult> resultSelector)
         {
-            var enumerators = collections.Select(_ => _.GetEnumerator()).ToArray();
-            var length = enumerators.Length;
-            var counter = 0;
-            while (counter < length - 1)
-            {
-                var result = Enumerable.Empty<TResult>();
-                foreach (var i in Enumerable.Range(0, length))
-                {
-                    if (!enumerators[i].MoveNext()) counter++;
-                    else
-                    {
-                        result = resultSelector(enumerators[i].Current).Yield().Concat(result);
-                    }
-                }
+            if (resultSelector == null) throw new ArgumentNullException(nameof(resultSelector));
 
-                yield return result;
-            }
+            var sequenceCollection = sequences as IEnumerable<TIn>[] ?? sequences.ToArray();
+            if (sequenceCollection.Any(_ => _ == null)) throw new ArgumentException(nameof(sequences));
+
+            return ZipIteratorExtended(sequenceCollection, resultSelector);
         }
 
         public static IEnumerable<TResult> ZipThree<TFirst, TSecond, TThird, TResult>(
@@ -90,6 +79,7 @@ namespace LeetCode
         {
             if (first == null) throw new ArgumentNullException(nameof(first));
             if (second == null) throw new ArgumentNullException(nameof(second));
+            if (third == null) throw new ArgumentNullException(nameof(third));
             if (resultSelector == null) throw new ArgumentNullException(nameof(resultSelector));
 
             return ZipIterator(first, second, third, resultSelector);
@@ -106,6 +96,29 @@ namespace LeetCode
             using (var e3 = third.GetEnumerator())
                 while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext())
                     yield return resultSelector(e1.Current, e2.Current, e3.Current);
+        }
+
+        private static IEnumerable<IEnumerable<TResult>> ZipIteratorExtended<TIn, TResult>(
+            this IEnumerable<IEnumerable<TIn>> sequences,
+            Func<TIn, TResult> resultSelector)
+        {
+            var enumerators = sequences.Select(_ => _.GetEnumerator()).ToArray();
+            var length = enumerators.Length;
+            var counter = 0;
+            while (counter < length - 1)
+            {
+                var result = Enumerable.Empty<TResult>();
+                foreach (var i in Enumerable.Range(0, length))
+                {
+                    if (!enumerators[i].MoveNext()) counter++;
+                    else
+                    {
+                        result = resultSelector(enumerators[i].Current).Yield().Concat(result);
+                    }
+                }
+
+                yield return result;
+            }
         }
     }
 }
