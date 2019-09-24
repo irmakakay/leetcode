@@ -7,7 +7,7 @@ namespace LeetCode
     {
         private readonly LinkedList<T> _sorted = new LinkedList<T>(Enumerable.Empty<T>());
 
-        public IEnumerable<T> Merge(IEnumerable<LinkedList<T>> lists)
+        public IEnumerable<T> MergeVertical(IEnumerable<LinkedList<T>> lists)
         {
             var enumerable = lists as LinkedList<T>[] ?? lists.ToArray();
             var count = enumerable.Length;
@@ -24,5 +24,14 @@ namespace LeetCode
 
             return _sorted;
         }
+
+        public IEnumerable<T> MergeHorizontal(IEnumerable<LinkedList<T>> lists)
+        {
+            var final = new LinkedList<T>(Enumerable.Empty<T>());
+
+            lists.ZipManyWithDifferentLength(_ => _).ForEach(i => final.InsertRangeSorted(i));
+
+            return final;            
+        }        
     }
 }

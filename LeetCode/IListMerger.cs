@@ -4,6 +4,8 @@ namespace LeetCode
 {
     public interface IListMerger<T>
     {
-        IEnumerable<T> Merge(IEnumerable<LinkedList<T>> lists);
+        IEnumerable<T> MergeVertical(IEnumerable<LinkedList<T>> lists);
+
+        IEnumerable<T> MergeHorizontal(IEnumerable<LinkedList<T>> lists);
     }
 }
