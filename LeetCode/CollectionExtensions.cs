@@ -59,7 +59,7 @@ namespace LeetCode
             }
         }
 
-        public static IEnumerable<IEnumerable<TResult>> ZipManyWithDifferentLength<TIn, TResult>(
+        public static IEnumerable<IEnumerable<TResult>> ZipManyWithDifferentLengths<TIn, TResult>(
             this IEnumerable<IEnumerable<TIn>> sequences,
             Func<TIn, TResult> resultSelector)
         {
@@ -105,7 +105,7 @@ namespace LeetCode
             var enumerators = sequences.Select(_ => _.GetEnumerator()).ToArray();
             var length = enumerators.Length;
             var counter = 0;
-            while (counter < length - 1)
+            while (counter < length)
             {
                 var result = Enumerable.Empty<TResult>();
                 foreach (var i in Enumerable.Range(0, length))

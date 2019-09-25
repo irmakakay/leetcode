@@ -29,7 +29,7 @@ namespace LeetCode
         {
             var final = new LinkedList<T>(Enumerable.Empty<T>());
 
-            lists.ZipManyWithDifferentLength(_ => _).ForEach(i => final.InsertRangeSorted(i));
+            lists.ZipManyWithDifferentLengths(_ => _).ForEach(i => final.InsertRangeSorted(i));
 
             return final;            
         }        
