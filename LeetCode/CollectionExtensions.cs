@@ -85,19 +85,6 @@ namespace LeetCode
             return ZipIterator(first, second, third, resultSelector);
         }
 
-        private static IEnumerable<TResult> ZipIterator<TFirst, TSecond, TThird, TResult>(
-            IEnumerable<TFirst> first,
-            IEnumerable<TSecond> second,
-            IEnumerable<TThird> third,
-            Func<TFirst, TSecond, TThird, TResult> resultSelector)
-        {
-            using (var e1 = first.GetEnumerator())
-            using (var e2 = second.GetEnumerator())
-            using (var e3 = third.GetEnumerator())
-                while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext())
-                    yield return resultSelector(e1.Current, e2.Current, e3.Current);
-        }
-
         public static void InvokeActionByZip<TIn>(
             this IEnumerable<IEnumerable<TIn>> sequences,
             Action<TIn> action)
@@ -124,6 +111,19 @@ namespace LeetCode
             }
 
             enumerators.ForEach(_ => _.Dispose());
+        }
+
+        private static IEnumerable<TResult> ZipIterator<TFirst, TSecond, TThird, TResult>(
+            IEnumerable<TFirst> first,
+            IEnumerable<TSecond> second,
+            IEnumerable<TThird> third,
+            Func<TFirst, TSecond, TThird, TResult> resultSelector)
+        {
+            using (var e1 = first.GetEnumerator())
+            using (var e2 = second.GetEnumerator())
+            using (var e3 = third.GetEnumerator())
+                while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext())
+                    yield return resultSelector(e1.Current, e2.Current, e3.Current);
         }
 
         private static IEnumerable<IEnumerable<TResult>> ZipIteratorExtended<TIn, TResult>(
