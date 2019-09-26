@@ -98,8 +98,36 @@ namespace LeetCode
                     yield return resultSelector(e1.Current, e2.Current, e3.Current);
         }
 
-        private static IEnumerable<IEnumerable<TResult>> ZipIteratorExtended<TIn, TResult>(
+        public static void InvokeActionByZip<TIn>(
             this IEnumerable<IEnumerable<TIn>> sequences,
+            Action<TIn> action)
+        {
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            var sequenceCollection = sequences as IEnumerable<TIn>[] ?? sequences.ToArray();
+            if (sequenceCollection.Any(_ => _ == null)) throw new ArgumentException(nameof(sequences));
+
+            var enumerators = sequenceCollection.Select(_ => _.GetEnumerator()).ToList();
+            var length = enumerators.Count;
+            var breakEnumerators = new bool[length];
+
+            while (breakEnumerators.Any(_ => !_))
+            {                
+                foreach (var i in Enumerable.Range(0, length))
+                {
+                    if (!enumerators[i].MoveNext()) breakEnumerators[i] = true;
+                    else
+                    {
+                        action(enumerators[i].Current);
+                    }
+                }                
+            }
+
+            enumerators.ForEach(_ => _.Dispose());
+        }
+
+        private static IEnumerable<IEnumerable<TResult>> ZipIteratorExtended<TIn, TResult>(
+            IEnumerable<IEnumerable<TIn>> sequences,
             Func<TIn, TResult> resultSelector)
         {
             var enumerators = sequences.Select(_ => _.GetEnumerator()).ToList();

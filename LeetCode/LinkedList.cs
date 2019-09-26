@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LeetCode
 {
@@ -95,12 +94,6 @@ namespace LeetCode
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-            return this.Select(_ => sb.Append(_).Append("->")).ToString();
         }
     }
 }

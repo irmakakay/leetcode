@@ -33,6 +33,8 @@ namespace LeetCode.Tests
 
             var final = _sut.MergeHorizontal(new[] {l1, l2, l3, l4});
             CollectionAssert.AreEqual(new[] {1, 1, 1, 1, 1, 2, 3, 4, 4, 5, 6, 11}, final, final.ToString());
+
+            var s = l1.ToString();
         }
 
         [Test]

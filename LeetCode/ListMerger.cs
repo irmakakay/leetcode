@@ -29,9 +29,9 @@ namespace LeetCode
         {
             var final = new LinkedList<T>(Enumerable.Empty<T>());
 
-            lists.ZipManyWithDifferentLengths(_ => _).ForEach(i => final.InsertRangeSorted(i));
+            lists.InvokeActionByZip(_ => final.InsertSorted(_));
 
-            return final;            
+            return final;
         }        
     }
 }
