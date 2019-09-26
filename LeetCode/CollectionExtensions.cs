@@ -102,15 +102,15 @@ namespace LeetCode
             this IEnumerable<IEnumerable<TIn>> sequences,
             Func<TIn, TResult> resultSelector)
         {
-            var enumerators = sequences.Select(_ => _.GetEnumerator()).ToArray();
-            var length = enumerators.Length;
-            var counter = 0;
-            while (counter < length)
+            var enumerators = sequences.Select(_ => _.GetEnumerator()).ToList();
+            var length = enumerators.Count;
+            var breakEnumerators = new bool[length];
+            while (breakEnumerators.Any(_ => !_))
             {
                 var result = Enumerable.Empty<TResult>();
                 foreach (var i in Enumerable.Range(0, length))
                 {
-                    if (!enumerators[i].MoveNext()) counter++;
+                    if (!enumerators[i].MoveNext()) breakEnumerators[i] = true;
                     else
                     {
                         result = resultSelector(enumerators[i].Current).Yield().Concat(result);
@@ -119,6 +119,8 @@ namespace LeetCode
 
                 yield return result;
             }
+
+            enumerators.ForEach(_ => _.Dispose());
         }
     }
 }

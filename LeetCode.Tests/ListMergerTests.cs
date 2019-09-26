@@ -26,12 +26,13 @@ namespace LeetCode.Tests
         {
             ConfigureSut();
 
-            var l1 = new LinkedList<int>(new[] {1, 4, 5});
+            var l1 = new LinkedList<int>(new[] {1, 1, 1, 1, 4, 5});
             var l2 = new LinkedList<int>(new[] {1, 3, 4});
             var l3 = new LinkedList<int>(new[] {2, 6});
+            var l4 = new LinkedList<int>(new[] {11});
 
-            var final = _sut.MergeHorizontal(new[] {l1, l2, l3});
-            CollectionAssert.AreEqual(new[] {1, 1, 2, 3, 4, 4, 5, 6}, final, final.ToString());
+            var final = _sut.MergeHorizontal(new[] {l1, l2, l3, l4});
+            CollectionAssert.AreEqual(new[] {1, 1, 1, 1, 1, 2, 3, 4, 4, 5, 6, 11}, final, final.ToString());
         }
 
         [Test]
