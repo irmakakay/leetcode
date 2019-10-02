@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LeetCode
+namespace LeetCode.Collections.List
 {
     public interface ILinkedList<T> : IEnumerable<T>
     {

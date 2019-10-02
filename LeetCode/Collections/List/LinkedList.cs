@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using LeetCode.Extensions;
 
-namespace LeetCode
+namespace LeetCode.Collections.List
 {
     public class LinkedList<T> : ILinkedList<T>
     {

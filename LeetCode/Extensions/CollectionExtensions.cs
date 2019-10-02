@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LeetCode
+namespace LeetCode.Extensions
 {
     public static class CollectionExtensions
     {
@@ -33,7 +33,7 @@ namespace LeetCode
             return collection == null || !collection.Any();
         }
 
-        public static T GetAtPosition<T>(this LinkedList<T> list, int position)
+        public static T GetAtPosition<T>(this Collections.List.LinkedList<T> list, int position)
         {
             if (position < 0) throw new ArgumentException(nameof(position));
 

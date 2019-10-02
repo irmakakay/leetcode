@@ -1,4 +1,6 @@
-﻿namespace LeetCode.Console
+﻿using LeetCode.Collections.List;
+
+namespace LeetCode.Console
 {
     public class Program
     {
