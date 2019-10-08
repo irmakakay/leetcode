@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using LeetCode.Extensions;
 
 namespace LeetCode.Collections.Tree
@@ -8,8 +7,10 @@ namespace LeetCode.Collections.Tree
     public class BinarySearchTree<T> where T : struct, IComparable<T>
     {
         private static readonly IComparer<T> Comparer = Comparer<T>.Default;
-
+        
         public TreeNode<T> Root { get; set; }
+
+        public bool IsValid => Root.Validate(null, null);
 
         public void Insert(T data)
         {
@@ -52,12 +53,12 @@ namespace LeetCode.Collections.Tree
 
         public IEnumerable<T> Traverse(bool iterative = false)
         {
-            if (iterative) Root.TraverseIterative();
+            if (iterative) return Root.TraverseIterative();
 
             var results = new List<T>();
             Root.TraverseRecursive(results);
 
             return results;
-        }
+        }        
     }
 }

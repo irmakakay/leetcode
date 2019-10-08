@@ -48,5 +48,20 @@ namespace LeetCode.Extensions
             results.Add(node.Data);
             TraverseRecursive(node.Right, results);
         }
+
+        public static bool Validate<T>(this TreeNode<T> node, T? lower, T? upper) where T : struct, IComparable<T>
+        {
+            if (node == null) return true;
+
+            var value = node.Data;
+            if ((lower != null && Comparer<T?>.Default.Compare(value, lower) != 1) ||
+                (upper != null && Comparer<T?>.Default.Compare(value, upper) != -1))
+                return false;
+
+            if (!Validate(node.Right, value, upper)) return false;
+            if (!Validate(node.Left, lower, value)) return false;
+
+            return true;
+        }
     }
 }
