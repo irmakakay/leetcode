@@ -113,6 +113,38 @@ namespace LeetCode.Extensions
             enumerators.ForEach(_ => _.Dispose());
         }
 
+        public static IEnumerable<TIn> FecthFromEach<TIn>(
+            this IEnumerable<IEnumerable<TIn>> sequences,
+            int maxLimit)
+        {
+            var enumerators = sequences.Select(_ => _.GetEnumerator()).ToList();
+            var length = enumerators.Count;
+            var breakEnumerators = new bool[length];            
+            var count = 0;
+
+            try
+            {
+                while (count < maxLimit && breakEnumerators.Any(_ => !_))
+                {
+                    foreach (var i in Enumerable.Range(0, length))
+                    {
+                        if (count >= maxLimit) break;
+
+                        if (!enumerators[i].MoveNext()) breakEnumerators[i] = true;
+                        else
+                        {
+                            yield return enumerators[i].Current;
+                            ++count;
+                        }
+                    }
+                }                
+            }
+            finally
+            {
+                enumerators.ForEach(_ => _.Dispose());
+            }
+        }
+
         private static IEnumerable<TResult> ZipIterator<TFirst, TSecond, TThird, TResult>(
             IEnumerable<TFirst> first,
             IEnumerable<TSecond> second,
