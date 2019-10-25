@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace LeetCode.Tests
 {
     [TestFixture]
-    public class CollectionExtentionsTests
+    public class CollectionExtensionsTests
     {        
         [TestCaseSource(nameof(CountResultPairs))]
         public void TestFetchFromEach(Tuple<int, int[]> pair)
